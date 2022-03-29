@@ -1,15 +1,12 @@
 import { Entity, ManyToMany, ManyToOne, OneToMany, PrimaryKey, Property } from "@mikro-orm/core";
 import { Upvote } from "./Upvote";
 import { User } from "./User";
-import { Comment } from "./Comment";
+import { Post } from "./Post"
 
 @Entity()
-export class Post {
+export class Comment {
   @PrimaryKey()
   id!: number;
-
-  @Property()
-  title!: string;
 
   @Property({ columnType: 'text' })
   body!: string;
@@ -17,11 +14,11 @@ export class Post {
   @ManyToOne()
   owner!: User;
 
-  @OneToMany(() => Upvote, upvote => upvote.post)
+  @OneToMany(() => Upvote, upvote => upvote.comment)
   upvotes!: Upvote;
 
-  @OneToMany(() => Comment, comment => comment.post)
-  comments!: Comment;
+  @ManyToOne()
+  post!: Post;
 
   @Property()
   createdAt!: Date;

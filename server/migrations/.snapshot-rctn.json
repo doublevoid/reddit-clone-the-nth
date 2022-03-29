@@ -39,6 +39,15 @@
           "nullable": false,
           "mappedType": "string"
         },
+        "posts_id": {
+          "name": "posts_id",
+          "type": "int",
+          "unsigned": true,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "integer"
+        },
         "created_at": {
           "name": "created_at",
           "type": "datetime",
@@ -63,56 +72,11 @@
       "name": "user",
       "indexes": [
         {
-          "keyName": "PRIMARY",
           "columnNames": [
-            "id"
+            "posts_id"
           ],
           "composite": false,
-          "primary": true,
-          "unique": true
-        }
-      ],
-      "checks": [],
-      "foreignKeys": {}
-    },
-    {
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "int",
-          "unsigned": true,
-          "autoincrement": true,
-          "primary": true,
-          "nullable": false,
-          "mappedType": "integer"
-        },
-        "user_id": {
-          "name": "user_id",
-          "type": "int",
-          "unsigned": true,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "integer"
-        },
-        "token": {
-          "name": "token",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "text"
-        }
-      },
-      "name": "user_token",
-      "indexes": [
-        {
-          "columnNames": [
-            "user_id"
-          ],
-          "composite": false,
-          "keyName": "user_token_user_id_index",
+          "keyName": "user_posts_id_index",
           "primary": false,
           "unique": false
         },
@@ -128,17 +92,17 @@
       ],
       "checks": [],
       "foreignKeys": {
-        "user_token_user_id_foreign": {
-          "constraintName": "user_token_user_id_foreign",
+        "user_posts_id_foreign": {
+          "constraintName": "user_posts_id_foreign",
           "columnNames": [
-            "user_id"
+            "posts_id"
           ],
-          "localTableName": "user_token",
+          "localTableName": "user",
           "referencedColumnNames": [
             "id"
           ],
-          "referencedTableName": "user",
-          "updateRule": "cascade"
+          "referencedTableName": "post",
+          "deleteRule": "cascade"
         }
       }
     },
@@ -162,14 +126,14 @@
           "nullable": false,
           "mappedType": "string"
         },
-        "description": {
-          "name": "description",
-          "type": "varchar(255)",
+        "body": {
+          "name": "body",
+          "type": "text",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "string"
+          "mappedType": "text"
         },
         "owner_id": {
           "name": "owner_id",
@@ -249,6 +213,190 @@
           "nullable": false,
           "mappedType": "integer"
         },
+        "user_id": {
+          "name": "user_id",
+          "type": "int",
+          "unsigned": true,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "token": {
+          "name": "token",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        }
+      },
+      "name": "user_token",
+      "indexes": [
+        {
+          "columnNames": [
+            "user_id"
+          ],
+          "composite": false,
+          "keyName": "user_token_user_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "keyName": "PRIMARY",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "user_token_user_id_foreign": {
+          "constraintName": "user_token_user_id_foreign",
+          "columnNames": [
+            "user_id"
+          ],
+          "localTableName": "user_token",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "user",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "unsigned": true,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "body": {
+          "name": "body",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "owner_id": {
+          "name": "owner_id",
+          "type": "int",
+          "unsigned": true,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "post_id": {
+          "name": "post_id",
+          "type": "int",
+          "unsigned": true,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "datetime",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "mappedType": "datetime"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "datetime",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "mappedType": "datetime"
+        }
+      },
+      "name": "comment",
+      "indexes": [
+        {
+          "columnNames": [
+            "owner_id"
+          ],
+          "composite": false,
+          "keyName": "comment_owner_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "columnNames": [
+            "post_id"
+          ],
+          "composite": false,
+          "keyName": "comment_post_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "keyName": "PRIMARY",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "comment_owner_id_foreign": {
+          "constraintName": "comment_owner_id_foreign",
+          "columnNames": [
+            "owner_id"
+          ],
+          "localTableName": "comment",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "user",
+          "updateRule": "cascade"
+        },
+        "comment_post_id_foreign": {
+          "constraintName": "comment_post_id_foreign",
+          "columnNames": [
+            "post_id"
+          ],
+          "localTableName": "comment",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "post",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "unsigned": true,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "mappedType": "integer"
+        },
         "positive": {
           "name": "positive",
           "type": "tinyint(1)",
@@ -275,6 +423,15 @@
           "primary": false,
           "nullable": true,
           "mappedType": "integer"
+        },
+        "comment_id": {
+          "name": "comment_id",
+          "type": "int",
+          "unsigned": true,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "integer"
         }
       },
       "name": "upvote",
@@ -294,6 +451,15 @@
           ],
           "composite": false,
           "keyName": "upvote_post_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "columnNames": [
+            "comment_id"
+          ],
+          "composite": false,
+          "keyName": "upvote_comment_id_index",
           "primary": false,
           "unique": false
         },
@@ -331,6 +497,18 @@
             "id"
           ],
           "referencedTableName": "post",
+          "deleteRule": "cascade"
+        },
+        "upvote_comment_id_foreign": {
+          "constraintName": "upvote_comment_id_foreign",
+          "columnNames": [
+            "comment_id"
+          ],
+          "localTableName": "upvote",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "comment",
           "deleteRule": "cascade"
         }
       }

@@ -1,4 +1,5 @@
 import { Cascade, Collection, Entity, ManyToMany, ManyToOne, PrimaryKey, Property } from "@mikro-orm/core";
+import { Comment } from "./Comment";
 import { Post } from "./Post";
 import { User } from "./User";
 
@@ -15,4 +16,7 @@ export class Upvote {
 
   @ManyToOne({ entity: () => Post, cascade: [Cascade.REMOVE] })
   post!: Post;
+
+  @ManyToOne({ entity: () => Comment, cascade: [Cascade.REMOVE] })
+  comment!: Comment;
 }

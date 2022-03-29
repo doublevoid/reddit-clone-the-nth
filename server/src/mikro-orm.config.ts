@@ -1,7 +1,7 @@
 import { TSMigrationGenerator } from "@mikro-orm/migrations";
 import { TsMorphMetadataProvider } from "@mikro-orm/reflection";
 import { Options } from '@mikro-orm/core'
-import { env } from "process";
+import process from 'process';
 const config: Options = {
   metadataProvider: TsMorphMetadataProvider,
   entities: ['./dist/entities'],
@@ -9,7 +9,7 @@ const config: Options = {
   dbName: 'rctn',
   type: 'mariadb',
   user: 'root',
-  password: env.DB_PWD,
+  password: process.env.DB_PWD,
   migrations: {
       tableName: 'mikro_orm_migrations', // name of database table with log of executed transactions
       path: './migrations', // path to the folder with migrations
