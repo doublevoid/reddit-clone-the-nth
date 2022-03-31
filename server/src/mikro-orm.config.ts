@@ -2,8 +2,9 @@ import { TSMigrationGenerator } from "@mikro-orm/migrations";
 import { TsMorphMetadataProvider } from "@mikro-orm/reflection";
 import { Options } from '@mikro-orm/core'
 import process from 'process';
-const config: Options = {
+const options: Options = {
   metadataProvider: TsMorphMetadataProvider,
+  debug: true,
   entities: ['./dist/entities'],
   entitiesTs: ['./src/entities'],
   dbName: 'rctn',
@@ -25,4 +26,4 @@ const config: Options = {
       generator: TSMigrationGenerator // migration generator, e.g. to allow custom formatting
   }
 };
-export default config;
+export default options;

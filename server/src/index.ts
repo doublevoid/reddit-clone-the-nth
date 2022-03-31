@@ -5,6 +5,7 @@ import config from './mikro-orm.config'
 import express from 'express';
 import http from 'http'
 const userRouter = require('./routes/user.route');
+const postRouter = require('./routes/post.route')
 
 // const userRouter = require('./routes/user.route')
 
@@ -15,21 +16,28 @@ export const DI = {} as {
     orm: MikroORM,
     em: EntityManager,
     userRepository: EntityRepository<User>,
+    postRepository: EntityRepository<Post>,
+    commentRepository: EntityRepository<Comment>
 }
-
 export const app = express();
+export const init = (async () => {
+
+})();
 const port = env.PORT || 3000;
-const dbPWD = env.DB_PWD
+const dbPWD = env.DB_PWD;
 
 export const main = (async () => {
-    DI.orm = await MikroORM.init(config);
+    DI.orm = await MikroORM.init();
     DI.em = DI.orm.em;
     DI.userRepository = DI.orm.em.getRepository(User);
-    app.use(express.json())
+    DI.postRepository = DI.orm.em.getRepository(Post);
+    DI.commentRepository = DI.orm.em.getRepository(Comment);
+    app.use(express.json());
     app.use((req, res, next) => {
         RequestContext.create(DI.orm.em, next);
       });
-    app.use('/user', userRouter)
+    app.use('/user', userRouter);
+    app.use('/post', postRouter);
 
     DI.server = app.listen(port, () => {
         console.log(`MikroORM express started at http://localhost:${port}`);

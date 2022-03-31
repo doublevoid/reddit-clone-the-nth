@@ -14,9 +14,9 @@ export class Upvote {
   @ManyToOne()
   user!: User;
 
-  @ManyToOne({ entity: () => Post, cascade: [Cascade.REMOVE] })
+  @ManyToOne({ entity: () => Post, cascade: [Cascade.REMOVE], nullable: true })
   post!: Post;
 
-  @ManyToOne({ entity: () => Comment, cascade: [Cascade.REMOVE] })
+  @ManyToOne({ entity: () => Comment, cascade: [Cascade.REMOVE], nullable: true})
   comment!: Comment;
 }

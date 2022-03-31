@@ -17,10 +17,10 @@ export class Post {
   @ManyToOne()
   owner!: User;
 
-  @OneToMany(() => Upvote, upvote => upvote.post)
+  @OneToMany(() => Upvote, upvote => upvote.post, {nullable: true})
   upvotes!: Upvote;
 
-  @OneToMany(() => Comment, comment => comment.post)
+  @OneToMany(() => Comment, comment => comment.post, {nullable: true})
   comments!: Comment;
 
   @Property()

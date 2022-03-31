@@ -39,15 +39,6 @@
           "nullable": false,
           "mappedType": "string"
         },
-        "posts_id": {
-          "name": "posts_id",
-          "type": "int",
-          "unsigned": true,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "integer"
-        },
         "created_at": {
           "name": "created_at",
           "type": "datetime",
@@ -72,11 +63,56 @@
       "name": "user",
       "indexes": [
         {
+          "keyName": "PRIMARY",
           "columnNames": [
-            "posts_id"
+            "id"
           ],
           "composite": false,
-          "keyName": "user_posts_id_index",
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "unsigned": true,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "int",
+          "unsigned": true,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "token": {
+          "name": "token",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        }
+      },
+      "name": "user_token",
+      "indexes": [
+        {
+          "columnNames": [
+            "user_id"
+          ],
+          "composite": false,
+          "keyName": "user_token_user_id_index",
           "primary": false,
           "unique": false
         },
@@ -92,17 +128,17 @@
       ],
       "checks": [],
       "foreignKeys": {
-        "user_posts_id_foreign": {
-          "constraintName": "user_posts_id_foreign",
+        "user_token_user_id_foreign": {
+          "constraintName": "user_token_user_id_foreign",
           "columnNames": [
-            "posts_id"
+            "user_id"
           ],
-          "localTableName": "user",
+          "localTableName": "user_token",
           "referencedColumnNames": [
             "id"
           ],
-          "referencedTableName": "post",
-          "deleteRule": "cascade"
+          "referencedTableName": "user",
+          "updateRule": "cascade"
         }
       }
     },
@@ -194,73 +230,6 @@
             "owner_id"
           ],
           "localTableName": "post",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "user",
-          "updateRule": "cascade"
-        }
-      }
-    },
-    {
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "int",
-          "unsigned": true,
-          "autoincrement": true,
-          "primary": true,
-          "nullable": false,
-          "mappedType": "integer"
-        },
-        "user_id": {
-          "name": "user_id",
-          "type": "int",
-          "unsigned": true,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "integer"
-        },
-        "token": {
-          "name": "token",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "text"
-        }
-      },
-      "name": "user_token",
-      "indexes": [
-        {
-          "columnNames": [
-            "user_id"
-          ],
-          "composite": false,
-          "keyName": "user_token_user_id_index",
-          "primary": false,
-          "unique": false
-        },
-        {
-          "keyName": "PRIMARY",
-          "columnNames": [
-            "id"
-          ],
-          "composite": false,
-          "primary": true,
-          "unique": true
-        }
-      ],
-      "checks": [],
-      "foreignKeys": {
-        "user_token_user_id_foreign": {
-          "constraintName": "user_token_user_id_foreign",
-          "columnNames": [
-            "user_id"
-          ],
-          "localTableName": "user_token",
           "referencedColumnNames": [
             "id"
           ],
