@@ -3,13 +3,13 @@ import { Request, Response } from 'express';
 import { QueryOrder, wrap } from '@mikro-orm/core';
 import { DI } from '../index';
 import { User } from '../entities';
-const bcrypt = require ('bcrypt');
-import { EntityManager  } from '@mikro-orm/mariadb';
+const bcrypt = require('bcrypt');
+import { EntityManager } from '@mikro-orm/mariadb';
 
 
 
 export async function list(req: Request, res: Response) {
-    try{
+    try {
         const users = await DI.userRepository.findAll();
         res.json(users);
     }
@@ -18,7 +18,7 @@ export async function list(req: Request, res: Response) {
     }
 }
 
-export async function show (req: Request, res: Response) {
+export async function show(req: Request, res: Response) {
     try {
         const user = await DI.userRepository.find({ id: parseInt(req.params.id) });
         res.json(user);
@@ -40,8 +40,8 @@ export async function store(req: Request, res: Response) {
         user.createdAt = new Date();
         user.updatedAt = new Date();
         let createdUser;
-        await bcrypt.hash(req.body.password, 10, async function(err:any, hash:string) {
-            user.password = hash
+        await bcrypt.hash(req.body.password, 10, async function (err: any, hash: string) {
+            user.password = hash;
             const createdUser = DI.userRepository.create(user);
             await DI.userRepository.persist(createdUser).flush();
         })
@@ -59,14 +59,14 @@ export async function update(req: Request, res: Response) {
         newUser.email = req.body.email;
         newUser.name = req.body.name;
         newUser.updatedAt = new Date();
-        await bcrypt.hash(req.body.password, 10, async function(err:any, hash:string) {
+        await bcrypt.hash(req.body.password, 10, async function (err: any, hash: string) {
             newUser.password = hash;
             wrap(user).assign(newUser);
             await DI.userRepository.flush();
         })
-    
+
         res.json(user);
-      } catch (e: any) {
+    } catch (e: any) {
         return res.status(400).json({ message: e.message });
-      }
+    }
 }
