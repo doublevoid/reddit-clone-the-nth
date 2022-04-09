@@ -1,40 +1,37 @@
-
 import { Request, Response } from 'express';
-import { DatabaseDriver, QueryOrder, wrap, RequestContext } from '@mikro-orm/core';
+import { wrap } from '@mikro-orm/core';
 import { DI } from '../index';
 import { Comment } from '../entities';
-const bcrypt = require('bcrypt');
-import { EntityRepository, EntityManager } from '@mikro-orm/core';
 
 // const commentRepository = DI.orm.em.getRepository(Comment);
-
-export async function list(req: Request, res: Response) {
+async function list(req: Request, res: Response) {
     try {
-        const comments = await DI.commentRepository.findAll()
+        const comments = await DI.commentRepository.findAll();
         res.json(comments);
-    }
-    catch (err) {
+    } catch (err) {
         console.error(err);
     }
 }
 
-export async function show(req: Request, res: Response) {
+async function show(req: Request, res: Response) {
     try {
-        const comment = await DI.commentRepository.find({ id: parseInt(req.params.id) })
+        const comment = await DI.commentRepository.find({
+            id: parseInt(req.params.id),
+        });
         res.json(comment);
     } catch (err: any) {
         return res.status(400).json({ message: err.message });
     }
 }
 
-export async function store(req: Request, res: Response) {
+async function store(req: Request, res: Response) {
     if (!req.body.userId || !req.body.body || !req.body.title) {
         res.status(400);
         return res.json({ message: 'missing parameters' });
     }
 
     try {
-        const comment = new Comment;
+        const comment = new Comment();
         comment.owner = req.body.userId;
         comment.body = req.body.body;
         comment.post = req.body.postId;
@@ -49,10 +46,12 @@ export async function store(req: Request, res: Response) {
     }
 }
 
-export async function update(req: Request, res: Response) {
+async function update(req: Request, res: Response) {
     try {
-        const comment = await DI.commentRepository.findOneOrFail(parseInt(req.params.id));
-        const newComment = new Comment;
+        const comment = await DI.commentRepository.findOneOrFail(
+            parseInt(req.params.id)
+        );
+        const newComment = new Comment();
         newComment.body = req.body.body;
         newComment.updatedAt = new Date();
         wrap(comment).assign(newComment);
@@ -64,3 +63,4 @@ export async function update(req: Request, res: Response) {
     }
 }
 
+export default { show, update, list, store };

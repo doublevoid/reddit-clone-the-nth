@@ -1,14 +1,14 @@
-'use strict'
+'use strict';
 
 import express from 'express';
 const postRouter = express.Router();
-const postController = require('../controllers/post.controller')
+import postController from '../controllers/post.controller';
 
 /* GET programming languages. */
 postRouter.get('/', postController.list);
 
 postRouter.get('/:id', postController.show);
-  
+
 /* POST programming language */
 postRouter.post('/', postController.store);
 
@@ -18,4 +18,4 @@ postRouter.put('/:id', postController.update);
 // /* DELETE programming language */
 // router.delete('/:id', postController.remove);
 
-module.exports = postRouter;
+export default postRouter;

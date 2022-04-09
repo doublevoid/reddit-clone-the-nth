@@ -1,30 +1,30 @@
-import { Entity, PrimaryKey, Property, OneToMany, ManyToOne, Cascade } from "@mikro-orm/core";
-import { Post } from "./Post";
-import { Upvote } from "./Upvote";
+import { Entity, PrimaryKey, Property, OneToMany } from '@mikro-orm/core';
+import { Post } from './Post';
+import { Upvote } from './Upvote';
 
 @Entity()
 export class User {
-  @PrimaryKey()
-  id!: number;
+    @PrimaryKey()
+    id!: number;
 
-  @Property()
-  name!: string;
+    @Property()
+    name!: string;
 
-  @Property({ hidden: true })
-  email!: string;
+    @Property({ hidden: true })
+    email!: string;
 
-  @Property({ hidden: true })
-  password!: string;
+    @Property({ hidden: true })
+    password!: string;
 
-  @OneToMany(() => Upvote, upvote => upvote.user, {nullable: true})
-  upvotes!: Upvote;
+    @OneToMany(() => Upvote, (upvote) => upvote.user, { nullable: true })
+    upvotes!: Upvote;
 
-  @OneToMany(() => Post, post => post.owner, {nullable: true})
-  posts!: Post;
+    @OneToMany(() => Post, (post) => post.owner, { nullable: true })
+    posts!: Post;
 
-  @Property()
-  createdAt!: Date;
+    @Property()
+    createdAt!: Date;
 
-  @Property()
-  updatedAt!: Date;
+    @Property()
+    updatedAt!: Date;
 }

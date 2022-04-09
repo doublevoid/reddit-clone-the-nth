@@ -1,14 +1,14 @@
-'use strict'
+'use strict';
 
 import express from 'express';
 const commentRouter = express.Router();
-const commentController = require('../controllers/comment.controller')
+import commentController from '../controllers/comment.controller';
 
 /* GET programming languages. */
 commentRouter.get('/', commentController.list);
 
 commentRouter.get('/:id', commentController.show);
-  
+
 /* POST programming language */
 commentRouter.post('/', commentController.store);
 
@@ -18,4 +18,4 @@ commentRouter.put('/:id', commentController.update);
 // /* DELETE programming language */
 // router.delete('/:id', commentController.remove);
 
-module.exports = commentRouter;
+export default { commentRouter };

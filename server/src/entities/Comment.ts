@@ -1,28 +1,34 @@
-import { Entity, ManyToMany, ManyToOne, OneToMany, PrimaryKey, Property } from "@mikro-orm/core";
-import { Upvote } from "./Upvote";
-import { User } from "./User";
-import { Post } from "./Post"
+import {
+    Entity,
+    ManyToOne,
+    OneToMany,
+    PrimaryKey,
+    Property,
+} from '@mikro-orm/core';
+import { Upvote } from './Upvote';
+import { User } from './User';
+import { Post } from './Post';
 
 @Entity()
 export class Comment {
-  @PrimaryKey()
-  id!: number;
+    @PrimaryKey()
+    id!: number;
 
-  @Property({ columnType: 'text' })
-  body!: string;
+    @Property({ columnType: 'text' })
+    body!: string;
 
-  @ManyToOne()
-  owner!: User;
+    @ManyToOne()
+    owner!: User;
 
-  @OneToMany(() => Upvote, upvote => upvote.comment)
-  upvotes!: Upvote;
+    @OneToMany(() => Upvote, (upvote) => upvote.comment)
+    upvotes!: Upvote;
 
-  @ManyToOne()
-  post!: Post;
+    @ManyToOne()
+    post!: Post;
 
-  @Property()
-  createdAt!: Date;
+    @Property()
+    createdAt!: Date;
 
-  @Property()
-  updatedAt!: Date;
+    @Property()
+    updatedAt!: Date;
 }
